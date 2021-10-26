@@ -1,6 +1,8 @@
 import type { NextPage } from 'next';
 import Head from 'next/head';
 
+import HomePage from '@/modules/Home';
+
 const Home: NextPage = () => {
   return (
     <>
@@ -8,7 +10,7 @@ const Home: NextPage = () => {
         <title>Анкета соискателя</title>
       </Head>
 
-      <h1>Home page</h1>
+      <HomePage />
     </>
   );
 };
