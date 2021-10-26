@@ -1,0 +1,5 @@
+:root {
+  --gray: #262626;
+
+  --base-color: var(--gray);
+}

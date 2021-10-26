@@ -1,52 +1,53 @@
 import React from 'react';
 
+import Input from '@/common/components/Input';
+
+import classes from './Home.module.css';
+
 const HomePage: React.FC = () => {
   return (
-    <section>
-      <h1>Анкета соискателя</h1>
+    <section className={classes.container}>
+      <h1 className={classes.title}>Анкета соискателя</h1>
 
-      <form>
-        <fieldset>
-          <legend>Личные данные</legend>
+      <form className={classes.form}>
+        <fieldset className={classes.form_group}>
+          <legend className={classes.form_group_name}>Личные данные</legend>
 
-          <div>
-            <p>
-              Имя <sup>*</sup>
-            </p>
+          <Input
+            label="Имя"
+            type="text"
+            placeholder="Имя"
+            value=""
+            onChange={() => {}}
+            required
+          />
 
-            <input type="text" placeholder="Имя" />
+          <Input
+            label="Фамилия"
+            type="text"
+            placeholder="Фамилия"
+            value=""
+            onChange={() => {}}
+            required
+          />
 
-            <p>В имени могут быть только буквы</p>
-          </div>
-
-          <div>
-            <p>
-              Фамилия <sup>*</sup>
-            </p>
-
-            <input type="text" placeholder="Фамилия" />
-
-            <p>В имени могут быть только буквы</p>
-          </div>
-
-          <div>
-            <p>
-              Электронная почта <sup>*</sup>
-            </p>
-
-            <input type="email" placeholder="Электронная почта" />
-
-            <p>В имени могут быть только буквы</p>
-          </div>
+          <Input
+            label="Электронная почта"
+            type="email"
+            placeholder="Электронная почта"
+            value=""
+            onChange={() => {}}
+            required
+          />
 
           <div>
-            <button type="button">Загрузить резюме</button>
-            <input type="file" />
+            <label htmlFor="file">Загрузить резюме</label>
+            <input className="visually-hidden" id="file" type="file" />
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Пол *</legend>
+        <fieldset className={classes.form_group}>
+          <legend className={classes.form_group_name}>Пол *</legend>
 
           <div>
             <label>
@@ -61,18 +62,16 @@ const HomePage: React.FC = () => {
           </div>
         </fieldset>
 
-        <fieldset>
-          <legend>Github</legend>
+        <fieldset className={classes.form_group}>
+          <legend className={classes.form_group_name}>Github</legend>
 
-          <div>
-            <p>
-              Вставьте ссылку на Github <sup>*</sup>
-            </p>
-
-            <input type="text" placeholder="Вставьте ссылку на Github" />
-
-            <p>В имени могут быть только буквы</p>
-          </div>
+          <Input
+            label="Вставьте ссылку на Github"
+            type="text"
+            placeholder="Вставьте ссылку на Github"
+            value=""
+            onChange={() => {}}
+          />
         </fieldset>
 
         <label>
