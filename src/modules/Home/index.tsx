@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Input from '@/common/components/Input';
+import UploadFile from '@/common/components/UploadFile';
 
 import classes from './Home.module.css';
 
@@ -41,10 +42,7 @@ const HomePage: React.FC = () => {
               required
             />
 
-            <div>
-              <label htmlFor="file">Загрузить резюме</label>
-              <input className="visually-hidden" id="file" type="file" />
-            </div>
+            <UploadFile />
           </div>
         </fieldset>
 

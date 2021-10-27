@@ -1,0 +1,85 @@
+.container {
+  display: inline-block;
+  min-width: 340px;
+  height: 40px;
+}
+
+.label {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  font-size: 14px;
+  color: var(--gray-7);
+  background-color: var(--gray-1);
+  border: 1px dashed var(--border-color);
+  border-radius: 2px;
+}
+
+.input:focus + .label {
+  border-color: var(--border-color-focus);
+}
+
+.icon {
+  position: absolute;
+  left: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.file {
+  display: grid;
+  grid-template-columns: 16px 1fr 30px;
+  grid-gap: 8px;
+  align-items: center;
+  margin: 0;
+  padding: 3px;
+  font-size: 14px;
+  color: var(--blue-3);
+  transition: 250ms ease;
+  cursor: pointer;
+  outline: none;
+}
+
+.file:focus,
+.file:hover {
+  background-color: var(--blue-1);
+}
+
+.file:focus .remove,
+.file:hover .remove {
+  visibility: visible;
+}
+
+.file svg {
+  width: 16px;
+  height: 16px;
+  fill: var(--gray-6);
+}
+
+.file span {
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
+.remove {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  background-color: transparent;
+  border: none;
+  /*visibility: hidden;*/
+  transition: 250ms ease;
+  outline: none;
+}
+
+.remove:hover svg,
+.remove:focus svg {
+  fill: var(--border-color-focus);
+}
