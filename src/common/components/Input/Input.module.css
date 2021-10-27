@@ -1,9 +1,11 @@
-.input_wrapper {
+.container {
   display: inline-block;
+  min-width: 256px;
 }
 
-.input_label {
+.label {
   margin: 0;
+  margin-bottom: 2px;
   font-size: 14px;
   line-height: 22px;
 }
@@ -44,7 +46,7 @@
   border-color: var(--error);
 }
 
-.input_error {
+.text_error {
   margin: 0;
   font-size: 14px;
   line-height: 22px;

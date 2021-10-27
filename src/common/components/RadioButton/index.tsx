@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import cn from 'classnames';
 
-import classes from './Input.module.css';
+import classes from './RadioButton.module.css';
 
 interface Props
   extends DetailedHTMLProps<
@@ -11,38 +11,33 @@ interface Props
   label: string;
   value: string;
   onChange: () => void;
-  required?: boolean;
-  errorMessage?: string;
+  name: string;
   className?: string;
 }
 
-const Input: React.FC<Props> = ({
+const RadioButton: React.FC<Props> = ({
+  className,
   label,
   value,
   onChange,
-  required = false,
-  errorMessage,
-  className,
+  name,
+  required,
   ...props
 }) => {
   return (
     <label className={cn(classes.container, className)}>
-      <p className={classes.label}>
-        {label} {required && <sup>*</sup>}
-      </p>
-
       <input
-        className={cn(classes.input, {
-          [classes.error]: Boolean(errorMessage),
-        })}
+        className={cn('visually-hidden', classes.input)}
+        type="radio"
+        name={name}
         value={value}
         onChange={onChange}
         {...props}
       />
-
-      {errorMessage && <p className={classes.text_error}>{errorMessage}</p>}
+      <span className={classes.checkbox} />
+      <p className={classes.label}>{label}</p>
     </label>
   );
 };
 
-export default Input;
+export default RadioButton;

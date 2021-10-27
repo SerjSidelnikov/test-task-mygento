@@ -1,48 +1,47 @@
 import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
 import cn from 'classnames';
 
-import classes from './Input.module.css';
+import CheckIcon from '@/common/assets/image/svg/check.svg';
+
+import classes from './Checkbox.module.css';
 
 interface Props
   extends DetailedHTMLProps<
     InputHTMLAttributes<HTMLInputElement>,
     HTMLInputElement
   > {
-  label: string;
+  label?: string;
   value: string;
   onChange: () => void;
-  required?: boolean;
-  errorMessage?: string;
+  name: string;
   className?: string;
 }
 
-const Input: React.FC<Props> = ({
+const Checkbox: React.FC<Props> = ({
+  className,
   label,
   value,
   onChange,
-  required = false,
-  errorMessage,
-  className,
+  name,
+  children,
   ...props
 }) => {
   return (
     <label className={cn(classes.container, className)}>
-      <p className={classes.label}>
-        {label} {required && <sup>*</sup>}
-      </p>
-
       <input
-        className={cn(classes.input, {
-          [classes.error]: Boolean(errorMessage),
-        })}
+        className={cn('visually-hidden', classes.input)}
+        type="checkbox"
+        name={name}
         value={value}
         onChange={onChange}
         {...props}
       />
-
-      {errorMessage && <p className={classes.text_error}>{errorMessage}</p>}
+      <span className={classes.checkbox}>
+        <CheckIcon />
+      </span>
+      <p className={classes.label}>{children || label}</p>
     </label>
   );
 };
 
-export default Input;
+export default Checkbox;

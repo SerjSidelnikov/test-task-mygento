@@ -13,6 +13,10 @@ body {
   color: var(--base-color);
 }
 
+a {
+  color: var(--blue-3);
+}
+
 button,
 input,
 textarea {

@@ -1,0 +1,40 @@
+.container {
+  display: inline-grid;
+  grid-template-columns: 16px 1fr;
+  grid-gap: 8px;
+  align-items: center;
+  min-height: 40px;
+  cursor: pointer;
+}
+
+.checkbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 16px;
+  height: 16px;
+  border: 1px solid var(--border-color);
+  border-radius: 2px;
+  transition: 250ms ease;
+}
+
+.checkbox svg {
+  opacity: 0;
+  transform: translateX(-1px);
+  transition: 250ms ease;
+}
+
+.input:checked + .checkbox {
+  background-color: var(--blue-3);
+  border-color: var(--blue-3);
+}
+
+.input:checked + .checkbox svg {
+  opacity: 1;
+}
+
+.label {
+  margin: 0;
+  font-size: 14px;
+  color: var(--gray-7);
+}

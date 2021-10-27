@@ -31,5 +31,53 @@
 
 .input_group {
   display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(256px, 1fr));
   grid-gap: 24px;
+}
+
+.radio_group {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: min-content;
+  grid-gap: 24px;
+}
+
+.file {
+  align-self: end;
+}
+
+.input {
+  width: 100%;
+}
+
+.buttonSubmit {
+  width: 100%;
+}
+
+.justifyStart {
+  justify-self: start;
+}
+
+@media (min-width: 768px) {
+  .container {
+    width: 700px;
+    margin: 0 auto;
+  }
+
+  .input_group {
+    grid-template-columns: repeat(auto-fit, 256px);
+    grid-gap: 40px 80px;
+  }
+
+  .radio_group {
+    grid-gap: 100px;
+  }
+
+  .input {
+    width: auto;
+  }
+
+  .buttonSubmit {
+    width: 360px;
+  }
 }

@@ -1,7 +1,11 @@
 import React from 'react';
+import cn from 'classnames';
 
 import Input from '@/common/components/Input';
 import UploadFile from '@/common/components/UploadFile';
+import RadioButton from '@/common/components/RadioButton';
+import Checkbox from '@/common/components/Checkbox';
+import Button from '@/common/components/Button';
 
 import classes from './Home.module.css';
 
@@ -42,23 +46,27 @@ const HomePage: React.FC = () => {
               required
             />
 
-            <UploadFile />
+            <UploadFile className={classes.file} />
           </div>
         </fieldset>
 
         <fieldset className={classes.form_group}>
           <legend className={classes.form_group_name}>Пол *</legend>
 
-          <div>
-            <label>
-              <input type="radio" name="gender" value="male" />
-              <p>Мужской</p>
-            </label>
+          <div className={classes.radio_group}>
+            <RadioButton
+              label="Мужской"
+              value="male"
+              onChange={() => {}}
+              name="gender"
+            />
 
-            <label>
-              <input type="radio" name="gender" value="female" />
-              <p>Женский</p>
-            </label>
+            <RadioButton
+              label="Женский"
+              value="female"
+              onChange={() => {}}
+              name="gender"
+            />
           </div>
         </fieldset>
 
@@ -66,6 +74,7 @@ const HomePage: React.FC = () => {
           <legend className={classes.form_group_name}>Github</legend>
 
           <Input
+            className={cn(classes.input, classes.justifyStart)}
             label="Вставьте ссылку на Github"
             type="text"
             placeholder="Вставьте ссылку на Github"
@@ -74,15 +83,21 @@ const HomePage: React.FC = () => {
           />
         </fieldset>
 
-        <label>
-          <input type="checkbox" name="agree" />
-          <p>
-            <sup>*</sup> Я согласен с{' '}
-            <a href="/">политикой конфиденциальности</a>
-          </p>
-        </label>
+        <Checkbox
+          value="agree"
+          onChange={() => {}}
+          name="agree"
+          className={classes.justifyStart}
+        >
+          <sup>*</sup> Я согласен с <a href="/">политикой конфиденциальности</a>
+        </Checkbox>
 
-        <button type="submit">Отправить</button>
+        <Button
+          type="submit"
+          className={cn(classes.buttonSubmit, classes.justifyStart)}
+        >
+          Отправить
+        </Button>
       </form>
     </section>
   );

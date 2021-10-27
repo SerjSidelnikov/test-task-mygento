@@ -1,6 +1,6 @@
 .container {
   display: inline-block;
-  min-width: 340px;
+  min-width: 256px;
   height: 40px;
 }
 
@@ -16,6 +16,7 @@
   background-color: var(--gray-1);
   border: 1px dashed var(--border-color);
   border-radius: 2px;
+  cursor: pointer;
 }
 
 .input:focus + .label {
