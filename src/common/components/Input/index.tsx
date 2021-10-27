@@ -1,4 +1,7 @@
 import React, { DetailedHTMLProps, InputHTMLAttributes } from 'react';
+import cn from 'classnames';
+
+import classes from './Input.module.css';
 
 interface Props
   extends DetailedHTMLProps<
@@ -10,6 +13,7 @@ interface Props
   onChange: () => void;
   required?: boolean;
   errorMessage?: string;
+  className?: string;
 }
 
 const Input: React.FC<Props> = ({
@@ -18,17 +22,25 @@ const Input: React.FC<Props> = ({
   onChange,
   required = false,
   errorMessage,
+  className,
   ...props
 }) => {
   return (
-    <label>
-      <p>
+    <label className={cn(classes.input_wrapper, className)}>
+      <p className={classes.input_label}>
         {label} {required && <sup>*</sup>}
       </p>
 
-      <input value={value} onChange={onChange} {...props} />
+      <input
+        className={cn(classes.input, {
+          [classes.error]: Boolean(errorMessage),
+        })}
+        value={value}
+        onChange={onChange}
+        {...props}
+      />
 
-      {errorMessage && <p>{errorMessage}</p>}
+      {errorMessage && <p className={classes.input_error}>{errorMessage}</p>}
     </label>
   );
 };

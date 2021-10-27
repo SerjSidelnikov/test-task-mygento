@@ -13,36 +13,38 @@ const HomePage: React.FC = () => {
         <fieldset className={classes.form_group}>
           <legend className={classes.form_group_name}>Личные данные</legend>
 
-          <Input
-            label="Имя"
-            type="text"
-            placeholder="Имя"
-            value=""
-            onChange={() => {}}
-            required
-          />
+          <div className={classes.input_group}>
+            <Input
+              label="Имя"
+              type="text"
+              placeholder="Имя"
+              value=""
+              onChange={() => {}}
+              required
+            />
 
-          <Input
-            label="Фамилия"
-            type="text"
-            placeholder="Фамилия"
-            value=""
-            onChange={() => {}}
-            required
-          />
+            <Input
+              label="Фамилия"
+              type="text"
+              placeholder="Фамилия"
+              value=""
+              onChange={() => {}}
+              required
+            />
 
-          <Input
-            label="Электронная почта"
-            type="email"
-            placeholder="Электронная почта"
-            value=""
-            onChange={() => {}}
-            required
-          />
+            <Input
+              label="Электронная почта"
+              type="email"
+              placeholder="Электронная почта"
+              value=""
+              onChange={() => {}}
+              required
+            />
 
-          <div>
-            <label htmlFor="file">Загрузить резюме</label>
-            <input className="visually-hidden" id="file" type="file" />
+            <div>
+              <label htmlFor="file">Загрузить резюме</label>
+              <input className="visually-hidden" id="file" type="file" />
+            </div>
           </div>
         </fieldset>
 

@@ -16,8 +16,6 @@
 }
 
 .form_group {
-  display: grid;
-  grid-gap: 24px;
   margin: 0;
   padding: 0;
   border: none;
@@ -29,4 +27,9 @@
   font-weight: 600;
   font-size: 22px;
   line-height: 38px;
+}
+
+.input_group {
+  display: grid;
+  grid-gap: 24px;
 }
