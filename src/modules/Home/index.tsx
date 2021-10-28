@@ -1,4 +1,5 @@
 import React from 'react';
+import { CSSTransition } from 'react-transition-group';
 import cn from 'classnames';
 
 import Input from '@/common/components/Input';
@@ -126,7 +127,13 @@ const HomePage: React.FC = () => {
         </button>
       </form>
 
-      {isShowModalSuccess && (
+      <CSSTransition
+        in={isShowModalSuccess}
+        appear
+        timeout={350}
+        unmountOnExit
+        classNames="show"
+      >
         <Modal
           title="Спасибо Егор!"
           onClose={handleCloseModalSuccess}
@@ -142,11 +149,17 @@ const HomePage: React.FC = () => {
         >
           <p className={classes.alignCenter}>Мы скоро свяжемся с вами</p>
         </Modal>
-      )}
+      </CSSTransition>
 
-      {isShowModalPrivacyPolicy && (
+      <CSSTransition
+        in={isShowModalPrivacyPolicy}
+        appear
+        timeout={350}
+        unmountOnExit
+        classNames="show"
+      >
         <ModalPrivacyPolicy onClose={handleCloseModalPrivacyPolicy} />
-      )}
+      </CSSTransition>
     </section>
   );
 };
