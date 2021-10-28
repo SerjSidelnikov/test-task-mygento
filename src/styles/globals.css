@@ -15,6 +15,7 @@ body {
 
 a {
   color: var(--blue-3);
+  cursor: pointer;
 }
 
 button,

@@ -20,7 +20,12 @@ const Button: React.FC<Props> = ({
   ...props
 }) => {
   return (
-    <button className={cn(classes.button, className)} type={type} {...props}>
+    <button
+      onClick={onClick}
+      className={cn(classes.button, className)}
+      type={type}
+      {...props}
+    >
       {children}
     </button>
   );

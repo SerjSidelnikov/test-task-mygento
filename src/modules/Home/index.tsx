@@ -6,10 +6,29 @@ import UploadFile from '@/common/components/UploadFile';
 import RadioButton from '@/common/components/RadioButton';
 import Checkbox from '@/common/components/Checkbox';
 import Button from '@/common/components/Button';
+import Modal from '@/common/components/Modal';
 
 import classes from './Home.module.css';
+import ModalPrivacyPolicy from '@/common/components/ModalPrivacyPolicy';
 
 const HomePage: React.FC = () => {
+  const [isShowModalSuccess, setIsShowModalSuccess] =
+    React.useState<boolean>(false);
+  const [isShowModalPrivacyPolicy, setIsShowModalPrivacyPolicy] =
+    React.useState<boolean>(false);
+
+  const handleCloseModalSuccess = (): void => {
+    setIsShowModalSuccess(false);
+  };
+
+  const handleShowModalPrivacyPolicy = (): void => {
+    setIsShowModalPrivacyPolicy(true);
+  };
+
+  const handleCloseModalPrivacyPolicy = (): void => {
+    setIsShowModalPrivacyPolicy(false);
+  };
+
   return (
     <section className={classes.container}>
       <h1 className={classes.title}>Анкета соискателя</h1>
@@ -89,7 +108,10 @@ const HomePage: React.FC = () => {
           name="agree"
           className={classes.justifyStart}
         >
-          <sup>*</sup> Я согласен с <a href="/">политикой конфиденциальности</a>
+          <sup>*</sup> Я согласен с{' '}
+          <a onClick={handleShowModalPrivacyPolicy}>
+            политикой конфиденциальности
+          </a>
         </Checkbox>
 
         <Button
@@ -98,7 +120,33 @@ const HomePage: React.FC = () => {
         >
           Отправить
         </Button>
+
+        <button type="button" onClick={() => setIsShowModalSuccess(true)}>
+          modal
+        </button>
       </form>
+
+      {isShowModalSuccess && (
+        <Modal
+          title="Спасибо Егор!"
+          onClose={handleCloseModalSuccess}
+          renderFooter={() => (
+            <Button
+              onClick={handleCloseModalSuccess}
+              className={classes.btnModal}
+              type="button"
+            >
+              Понятно
+            </Button>
+          )}
+        >
+          <p className={classes.alignCenter}>Мы скоро свяжемся с вами</p>
+        </Modal>
+      )}
+
+      {isShowModalPrivacyPolicy && (
+        <ModalPrivacyPolicy onClose={handleCloseModalPrivacyPolicy} />
+      )}
     </section>
   );
 };
