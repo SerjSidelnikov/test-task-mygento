@@ -11,25 +11,26 @@ interface Props
     HTMLInputElement
   > {
   label?: string;
-  value: boolean | string | number | readonly string[] | undefined;
-  onChange: () => void;
   name: string;
+  value?: string;
+  checked: boolean;
+  onChange: () => void;
   className?: string;
 }
 
 const Checkbox: React.ForwardRefExoticComponent<
   React.PropsWithoutRef<Props> & React.RefAttributes<HTMLInputElement>
 > = React.forwardRef(
-  ({ className, label, value, onChange, name, children, ...props }, ref) => {
+  ({ className, label, onChange, name, checked, children, ...props }, ref) => {
     return (
       <label className={cn(classes.container, className)}>
         <input
           ref={ref}
           className={cn('visually-hidden', classes.input)}
           type="checkbox"
-          name={name}
-          value={value}
           onChange={onChange}
+          checked={checked}
+          name={name}
           {...props}
         />
         <span className={classes.checkbox}>

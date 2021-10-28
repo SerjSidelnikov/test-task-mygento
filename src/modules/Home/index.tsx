@@ -63,13 +63,14 @@ const HomePage: React.FC = () => {
       .email('Невалидный email')
       .required('Пожалуйста, укажите электронную почту'),
     gender: yup.string().required('Пожалуйста, укажите ваш пол'),
-    agree: yup.boolean().required(),
+    agree: yup.boolean().oneOf([true]).required(),
   });
 
   const {
     control,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isValid },
+    setValue,
     watch,
     reset,
   } = useForm({
@@ -80,13 +81,19 @@ const HomePage: React.FC = () => {
 
   const userName = watch('name');
 
-  const onSubmit: SubmitHandler<IForm> = (data): void => {
-    console.log(data);
+  const isDisabledButtonSubmit = !isValid;
+
+  const onSubmit: SubmitHandler<IForm> = (): void => {
     setIsShowModalSuccess(true);
+  };
+
+  const handleDeleteFile = (): void => {
+    setValue('file', '');
   };
 
   const handleCloseModalSuccess = (): void => {
     setIsShowModalSuccess(false);
+    reset(defaultValues);
   };
 
   const handleShowModalPrivacyPolicy = (
@@ -156,7 +163,11 @@ const HomePage: React.FC = () => {
 
             <Controller
               render={({ field }) => (
-                <UploadFile {...field} className={classes.file} />
+                <UploadFile
+                  {...field}
+                  onDelete={handleDeleteFile}
+                  className={classes.file}
+                />
               )}
               name="file"
               control={control}
@@ -221,7 +232,13 @@ const HomePage: React.FC = () => {
 
         <Controller
           render={({ field }) => (
-            <Checkbox {...field} name="agree" className={classes.justifyStart}>
+            <Checkbox
+              checked={field.value}
+              onChange={field.onChange}
+              name="agree"
+              className={classes.justifyStart}
+              required
+            >
               <sup>*</sup> Я согласен с{' '}
               <a href="" onClick={handleShowModalPrivacyPolicy}>
                 политикой конфиденциальности
@@ -235,6 +252,7 @@ const HomePage: React.FC = () => {
         <Button
           type="submit"
           className={cn(classes.buttonSubmit, classes.justifyStart)}
+          disabled={isDisabledButtonSubmit}
         >
           Отправить
         </Button>

@@ -8,25 +8,20 @@ import classes from './UploadFile.module.css';
 
 interface Props {
   className?: string;
+  value?: string | undefined;
   onChange: (value: string) => void;
+  onDelete: () => void;
 }
 
 const UploadFile: React.ForwardRefExoticComponent<
   React.PropsWithoutRef<Props> & React.RefAttributes<HTMLInputElement>
-> = React.forwardRef(({ className, onChange }, ref) => {
-  const [file, setFile] = React.useState<string>('');
-
+> = React.forwardRef(({ className, value, onChange, onDelete }, ref) => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
     const files = event.target.files;
 
     if (files && files.length) {
-      setFile(files[0].name);
       onChange(files[0].name);
     }
-  };
-
-  const handleRemoveFile = (): void => {
-    setFile('');
   };
 
   return (
@@ -39,14 +34,14 @@ const UploadFile: React.ForwardRefExoticComponent<
         type="file"
       />
 
-      {file ? (
+      {value ? (
         <p className={classes.file} tabIndex={0}>
           <PaperClipIcon />
 
-          <span>{file}</span>
+          <span>{value}</span>
 
           <button
-            onClick={handleRemoveFile}
+            onClick={onDelete}
             type="button"
             className={classes.remove}
             title="Удалить"

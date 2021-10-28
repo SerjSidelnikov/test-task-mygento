@@ -20,7 +20,6 @@
 
 .checkbox svg {
   opacity: 0;
-  transform: translateX(-1px);
   transition: 250ms ease;
 }
 
