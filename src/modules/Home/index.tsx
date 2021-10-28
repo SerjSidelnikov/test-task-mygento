@@ -20,9 +20,7 @@ interface IForm {
   surname: string;
   email: string;
   file?: string;
-  gender: string;
   githubLink?: string;
-  agree: boolean;
 }
 
 const HomePage: React.FC = () => {
@@ -30,15 +28,19 @@ const HomePage: React.FC = () => {
     React.useState<boolean>(false);
   const [isShowModalPrivacyPolicy, setIsShowModalPrivacyPolicy] =
     React.useState<boolean>(false);
+  /*
+   * Была бага с отчисткой полей (не успевал разобраться),
+   * поэтому вынес в отдельный стейт из обработки формы.
+   */
+  const [gender, setGender] = React.useState<string>('');
+  const [agree, setAgree] = React.useState<boolean>(false);
 
   const defaultValues: IForm = {
     name: '',
     surname: '',
     email: '',
     file: '',
-    gender: '',
     githubLink: '',
-    agree: false,
   };
 
   const regexIncludesNumber = /\d/;
@@ -62,8 +64,6 @@ const HomePage: React.FC = () => {
       .string()
       .email('Невалидный email')
       .required('Пожалуйста, укажите электронную почту'),
-    gender: yup.string().required('Пожалуйста, укажите ваш пол'),
-    agree: yup.boolean().oneOf([true]).required(),
   });
 
   const {
@@ -81,7 +81,7 @@ const HomePage: React.FC = () => {
 
   const userName = watch('name');
 
-  const isDisabledButtonSubmit = !isValid;
+  const isDisabledButtonSubmit = !isValid || !agree || !gender;
 
   const onSubmit: SubmitHandler<IForm> = (): void => {
     setIsShowModalSuccess(true);
@@ -91,9 +91,23 @@ const HomePage: React.FC = () => {
     setValue('file', '');
   };
 
+  const handleChangeGender = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    setGender(event.target.value);
+  };
+
+  const handleChangeAgree = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ): void => {
+    setAgree(event.target.checked);
+  };
+
   const handleCloseModalSuccess = (): void => {
     setIsShowModalSuccess(false);
     reset(defaultValues);
+    setAgree(false);
+    setGender('');
   };
 
   const handleShowModalPrivacyPolicy = (
@@ -176,38 +190,23 @@ const HomePage: React.FC = () => {
         </fieldset>
 
         <fieldset className={classes.form_group}>
-          <legend className={classes.form_group_name}>
-            Пол *
-            {errors.gender?.message && (
-              <span className="error">{errors.gender.message}</span>
-            )}
-          </legend>
+          <legend className={classes.form_group_name}>Пол *</legend>
 
           <div className={classes.radio_group}>
-            <Controller
-              render={({ field }) => (
-                <RadioButton
-                  {...field}
-                  label="Мужской"
-                  value="male"
-                  name="gender"
-                />
-              )}
+            <RadioButton
+              onChange={handleChangeGender}
+              checked={gender === 'male'}
+              label="Мужской"
+              value="male"
               name="gender"
-              control={control}
             />
 
-            <Controller
-              render={({ field }) => (
-                <RadioButton
-                  {...field}
-                  label="Женский"
-                  value="female"
-                  name="gender"
-                />
-              )}
+            <RadioButton
+              onChange={handleChangeGender}
+              checked={gender === 'female'}
+              label="Женский"
+              value="female"
               name="gender"
-              control={control}
             />
           </div>
         </fieldset>
@@ -230,24 +229,18 @@ const HomePage: React.FC = () => {
           />
         </fieldset>
 
-        <Controller
-          render={({ field }) => (
-            <Checkbox
-              checked={field.value}
-              onChange={field.onChange}
-              name="agree"
-              className={classes.justifyStart}
-              required
-            >
-              <sup>*</sup> Я согласен с{' '}
-              <a href="" onClick={handleShowModalPrivacyPolicy}>
-                политикой конфиденциальности
-              </a>
-            </Checkbox>
-          )}
+        <Checkbox
+          checked={agree}
+          onChange={handleChangeAgree}
           name="agree"
-          control={control}
-        />
+          className={classes.justifyStart}
+          required
+        >
+          <sup>*</sup> Я согласен с{' '}
+          <a href="" onClick={handleShowModalPrivacyPolicy}>
+            политикой конфиденциальности
+          </a>
+        </Checkbox>
 
         <Button
           type="submit"

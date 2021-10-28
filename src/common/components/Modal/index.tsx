@@ -20,14 +20,6 @@ const Modal: React.FC<Props> = ({ title, onClose, children, renderFooter }) => {
 
   const target = usePortal();
 
-  React.useEffect(() => {
-    document.body.style.overflowY = 'hidden';
-
-    return () => {
-      document.body.style.overflowY = '';
-    };
-  }, []);
-
   const renderComponent = () => (
     <div className={classes.container}>
       <div className={classes.overlay} onClick={onClose} />

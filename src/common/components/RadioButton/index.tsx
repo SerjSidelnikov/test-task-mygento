@@ -10,7 +10,7 @@ interface Props
   > {
   label: string;
   value: string;
-  onChange: () => void;
+  onChange: (event: React.ChangeEvent<HTMLInputElement>) => void;
   name: string;
   className?: string;
 }
@@ -23,12 +23,12 @@ const RadioButton: React.ForwardRefExoticComponent<
       <label className={cn(classes.container, className)}>
         <input
           ref={ref}
+          {...props}
           className={cn('visually-hidden', classes.input)}
           type="radio"
           name={name}
           value={value}
           onChange={onChange}
-          {...props}
         />
         <span className={classes.checkbox} />
         <p className={classes.label}>{label}</p>
