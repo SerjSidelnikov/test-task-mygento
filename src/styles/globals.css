@@ -73,3 +73,10 @@ textarea {
   opacity: 0;
   transition: opacity 350ms;
 }
+
+.error {
+  margin-left: 20px;
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--error);
+}

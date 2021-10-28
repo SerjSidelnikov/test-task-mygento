@@ -9,40 +9,48 @@ interface Props
     HTMLInputElement
   > {
   label: string;
-  value: string;
+  value: string | undefined;
   onChange: () => void;
   required?: boolean;
   errorMessage?: string;
   className?: string;
 }
 
-const Input: React.FC<Props> = ({
-  label,
-  value,
-  onChange,
-  required = false,
-  errorMessage,
-  className,
-  ...props
-}) => {
-  return (
-    <label className={cn(classes.container, className)}>
-      <p className={classes.label}>
-        {label} {required && <sup>*</sup>}
-      </p>
+const Input: React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<Props> & React.RefAttributes<HTMLInputElement>
+> = React.forwardRef(
+  (
+    {
+      label,
+      value,
+      onChange,
+      required = false,
+      errorMessage,
+      className,
+      ...props
+    },
+    ref,
+  ) => {
+    return (
+      <label className={cn(classes.container, className)}>
+        <p className={classes.label}>
+          {label} {required && <sup>*</sup>}
+        </p>
 
-      <input
-        className={cn(classes.input, {
-          [classes.error]: Boolean(errorMessage),
-        })}
-        value={value}
-        onChange={onChange}
-        {...props}
-      />
+        <input
+          ref={ref}
+          className={cn(classes.input, {
+            [classes.error]: Boolean(errorMessage),
+          })}
+          value={value}
+          onChange={onChange}
+          {...props}
+        />
 
-      {errorMessage && <p className={classes.text_error}>{errorMessage}</p>}
-    </label>
-  );
-};
+        {errorMessage && <p className={classes.text_error}>{errorMessage}</p>}
+      </label>
+    );
+  },
+);
 
 export default Input;

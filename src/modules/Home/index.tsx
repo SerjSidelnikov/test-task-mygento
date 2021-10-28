@@ -1,5 +1,8 @@
 import React from 'react';
 import { CSSTransition } from 'react-transition-group';
+import { SubmitHandler, useForm, Controller } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import * as yup from 'yup';
 import cn from 'classnames';
 
 import Input from '@/common/components/Input';
@@ -8,9 +11,19 @@ import RadioButton from '@/common/components/RadioButton';
 import Checkbox from '@/common/components/Checkbox';
 import Button from '@/common/components/Button';
 import Modal from '@/common/components/Modal';
+import ModalPrivacyPolicy from '@/common/components/ModalPrivacyPolicy';
 
 import classes from './Home.module.css';
-import ModalPrivacyPolicy from '@/common/components/ModalPrivacyPolicy';
+
+interface IForm {
+  name: '';
+  surname: string;
+  email: string;
+  file?: string;
+  gender: string;
+  githubLink?: string;
+  agree: boolean;
+}
 
 const HomePage: React.FC = () => {
   const [isShowModalSuccess, setIsShowModalSuccess] =
@@ -18,11 +31,68 @@ const HomePage: React.FC = () => {
   const [isShowModalPrivacyPolicy, setIsShowModalPrivacyPolicy] =
     React.useState<boolean>(false);
 
+  const defaultValues: IForm = {
+    name: '',
+    surname: '',
+    email: '',
+    file: '',
+    gender: '',
+    githubLink: '',
+    agree: false,
+  };
+
+  const regexIncludesNumber = /\d/;
+
+  const schema = yup.object().shape({
+    name: yup
+      .string()
+      .required('Пожалуйста, укажите имя')
+      .test('name', 'В имени могут быть только буквы', (value = '') => {
+        regexIncludesNumber.lastIndex = 0;
+        return !regexIncludesNumber.test(value);
+      }),
+    surname: yup
+      .string()
+      .required('Пожалуйста, укажите фамилию')
+      .test('surname', 'В фамилии могут быть только буквы', (value = '') => {
+        regexIncludesNumber.lastIndex = 0;
+        return !regexIncludesNumber.test(value);
+      }),
+    email: yup
+      .string()
+      .email('Невалидный email')
+      .required('Пожалуйста, укажите электронную почту'),
+    gender: yup.string().required('Пожалуйста, укажите ваш пол'),
+    agree: yup.boolean().required(),
+  });
+
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    reset,
+  } = useForm({
+    defaultValues,
+    mode: 'onBlur',
+    resolver: yupResolver(schema),
+  });
+
+  const userName = watch('name');
+
+  const onSubmit: SubmitHandler<IForm> = (data): void => {
+    console.log(data);
+    setIsShowModalSuccess(true);
+  };
+
   const handleCloseModalSuccess = (): void => {
     setIsShowModalSuccess(false);
   };
 
-  const handleShowModalPrivacyPolicy = (): void => {
+  const handleShowModalPrivacyPolicy = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+  ): void => {
+    event.preventDefault();
     setIsShowModalPrivacyPolicy(true);
   };
 
@@ -34,58 +104,99 @@ const HomePage: React.FC = () => {
     <section className={classes.container}>
       <h1 className={classes.title}>Анкета соискателя</h1>
 
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
         <fieldset className={classes.form_group}>
           <legend className={classes.form_group_name}>Личные данные</legend>
 
           <div className={classes.input_group}>
-            <Input
-              label="Имя"
-              type="text"
-              placeholder="Имя"
-              value=""
-              onChange={() => {}}
-              required
+            <Controller
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  label="Имя"
+                  type="text"
+                  placeholder="Имя"
+                  errorMessage={errors.name?.message}
+                  required
+                />
+              )}
+              name="name"
+              control={control}
             />
 
-            <Input
-              label="Фамилия"
-              type="text"
-              placeholder="Фамилия"
-              value=""
-              onChange={() => {}}
-              required
+            <Controller
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  label="Фамилия"
+                  type="text"
+                  placeholder="Фамилия"
+                  errorMessage={errors.surname?.message}
+                  required
+                />
+              )}
+              name="surname"
+              control={control}
             />
 
-            <Input
-              label="Электронная почта"
-              type="email"
-              placeholder="Электронная почта"
-              value=""
-              onChange={() => {}}
-              required
+            <Controller
+              render={({ field }) => (
+                <Input
+                  {...field}
+                  label="Электронная почта"
+                  type="email"
+                  placeholder="Электронная почта"
+                  errorMessage={errors.email?.message}
+                  required
+                />
+              )}
+              name="email"
+              control={control}
             />
 
-            <UploadFile className={classes.file} />
+            <Controller
+              render={({ field }) => (
+                <UploadFile {...field} className={classes.file} />
+              )}
+              name="file"
+              control={control}
+            />
           </div>
         </fieldset>
 
         <fieldset className={classes.form_group}>
-          <legend className={classes.form_group_name}>Пол *</legend>
+          <legend className={classes.form_group_name}>
+            Пол *
+            {errors.gender?.message && (
+              <span className="error">{errors.gender.message}</span>
+            )}
+          </legend>
 
           <div className={classes.radio_group}>
-            <RadioButton
-              label="Мужской"
-              value="male"
-              onChange={() => {}}
+            <Controller
+              render={({ field }) => (
+                <RadioButton
+                  {...field}
+                  label="Мужской"
+                  value="male"
+                  name="gender"
+                />
+              )}
               name="gender"
+              control={control}
             />
 
-            <RadioButton
-              label="Женский"
-              value="female"
-              onChange={() => {}}
+            <Controller
+              render={({ field }) => (
+                <RadioButton
+                  {...field}
+                  label="Женский"
+                  value="female"
+                  name="gender"
+                />
+              )}
               name="gender"
+              control={control}
             />
           </div>
         </fieldset>
@@ -93,27 +204,33 @@ const HomePage: React.FC = () => {
         <fieldset className={classes.form_group}>
           <legend className={classes.form_group_name}>Github</legend>
 
-          <Input
-            className={cn(classes.input, classes.justifyStart)}
-            label="Вставьте ссылку на Github"
-            type="text"
-            placeholder="Вставьте ссылку на Github"
-            value=""
-            onChange={() => {}}
+          <Controller
+            render={({ field }) => (
+              <Input
+                {...field}
+                className={cn(classes.input, classes.justifyStart)}
+                label="Вставьте ссылку на Github"
+                type="text"
+                placeholder="Вставьте ссылку на Github"
+              />
+            )}
+            name="githubLink"
+            control={control}
           />
         </fieldset>
 
-        <Checkbox
-          value="agree"
-          onChange={() => {}}
+        <Controller
+          render={({ field }) => (
+            <Checkbox {...field} name="agree" className={classes.justifyStart}>
+              <sup>*</sup> Я согласен с{' '}
+              <a href="" onClick={handleShowModalPrivacyPolicy}>
+                политикой конфиденциальности
+              </a>
+            </Checkbox>
+          )}
           name="agree"
-          className={classes.justifyStart}
-        >
-          <sup>*</sup> Я согласен с{' '}
-          <a href="" onClick={handleShowModalPrivacyPolicy}>
-            политикой конфиденциальности
-          </a>
-        </Checkbox>
+          control={control}
+        />
 
         <Button
           type="submit"
@@ -121,10 +238,6 @@ const HomePage: React.FC = () => {
         >
           Отправить
         </Button>
-
-        <button type="button" onClick={() => setIsShowModalSuccess(true)}>
-          modal
-        </button>
       </form>
 
       <CSSTransition
@@ -135,7 +248,7 @@ const HomePage: React.FC = () => {
         classNames="show"
       >
         <Modal
-          title="Спасибо Егор!"
+          title={`Спасибо ${userName}!`}
           onClose={handleCloseModalSuccess}
           renderFooter={() => (
             <Button

@@ -17,9 +17,11 @@
   border: 1px dashed var(--border-color);
   border-radius: 2px;
   cursor: pointer;
+  transition: 250ms ease;
 }
 
-.input:focus + .label {
+.input:focus + .label,
+.label:hover {
   border-color: var(--border-color-focus);
 }
 
@@ -51,7 +53,7 @@
 
 .file:focus .remove,
 .file:hover .remove {
-  visibility: visible;
+  opacity: 1;
 }
 
 .file svg {
@@ -75,12 +77,18 @@
   padding: 0;
   background-color: transparent;
   border: none;
-  /*visibility: hidden;*/
   transition: 250ms ease;
   outline: none;
+  cursor: pointer;
 }
 
 .remove:hover svg,
 .remove:focus svg {
   fill: var(--border-color-focus);
+}
+
+@media (min-width: 768px) {
+  .remove {
+    opacity: 0;
+  }
 }

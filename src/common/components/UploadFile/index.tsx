@@ -8,9 +8,12 @@ import classes from './UploadFile.module.css';
 
 interface Props {
   className?: string;
+  onChange: (value: string) => void;
 }
 
-const UploadFile: React.FC<Props> = ({ className }) => {
+const UploadFile: React.ForwardRefExoticComponent<
+  React.PropsWithoutRef<Props> & React.RefAttributes<HTMLInputElement>
+> = React.forwardRef(({ className, onChange }, ref) => {
   const [file, setFile] = React.useState<string>('');
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>): void => {
@@ -18,6 +21,7 @@ const UploadFile: React.FC<Props> = ({ className }) => {
 
     if (files && files.length) {
       setFile(files[0].name);
+      onChange(files[0].name);
     }
   };
 
@@ -28,6 +32,7 @@ const UploadFile: React.FC<Props> = ({ className }) => {
   return (
     <div className={cn(classes.container, className)}>
       <input
+        ref={ref}
         onChange={handleChange}
         className={cn('visually-hidden', classes.input)}
         id="file"
@@ -57,6 +62,6 @@ const UploadFile: React.FC<Props> = ({ className }) => {
       )}
     </div>
   );
-};
+});
 
 export default UploadFile;
