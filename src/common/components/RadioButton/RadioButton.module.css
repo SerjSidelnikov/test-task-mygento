@@ -32,7 +32,8 @@
   transition: 250ms ease;
 }
 
-.input:checked + .checkbox {
+.input:checked + .checkbox,
+.input:focus + .checkbox {
   border-color: var(--blue-3);
 }
 

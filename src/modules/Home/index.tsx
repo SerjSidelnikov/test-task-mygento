@@ -110,7 +110,7 @@ const HomePage: React.FC = () => {
           className={classes.justifyStart}
         >
           <sup>*</sup> Я согласен с{' '}
-          <a onClick={handleShowModalPrivacyPolicy}>
+          <a href="" onClick={handleShowModalPrivacyPolicy}>
             политикой конфиденциальности
           </a>
         </Checkbox>

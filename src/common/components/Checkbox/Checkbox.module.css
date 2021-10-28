@@ -33,6 +33,11 @@
   opacity: 1;
 }
 
+
+.input:focus + .checkbox {
+  border-color: var(--blue-3);
+}
+
 .label {
   margin: 0;
   font-size: 14px;
